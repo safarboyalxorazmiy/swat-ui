@@ -1,0 +1,91 @@
+<div *ngIf="loaded">
+    <div class="card">
+        <p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+        <p [hidden]="!added" style="color: green;">{{addedText}}</p>
+
+        <p-table [value]="lots" dataKey="lot_id" editMode="row" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Lot name</th>
+                    <th>Comment</th>
+                    <th>Block Status</th>
+                    <th>Active Status</th>
+                    <th style="width:8rem"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="product">
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="product.name">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <a href='{{"/lots/" + product.lot_id}}'>{{product.name}}</a>
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="product.comment">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{product.comment}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td *ngIf="product.blocked" style="color: red;">
+
+                        <button pButton class="p-button-danger" type="button" label="Blocked"
+                            (click)="unblock(product.lot_id)"></button>
+                    </td>
+                    <td *ngIf="!product.blocked" style="color: green;">
+                        <button pButton class="p-button-success" type="button" label="UnBlocked"
+                            (click)="block(product.lot_id)"></button>
+                    </td>
+                    <td *ngIf="!product.active" style="color: red;">
+
+                        <button pButton class="p-button-danger" type="button" label="Unactive"
+                            (click)="activate(product.lot_id)"></button>
+                    </td>
+                    <td *ngIf="product.active" style="color: green;">
+                        <button pButton class="p-button-success" type="button" label="Active"
+                            (click)="deactivate(product.lot_id)"></button>
+                    </td>
+                    <td style="text-align:center">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                            (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                            (click)="onRowEditSave(product)"
+                            class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                            (click)="onRowEditCancel(product, ri)"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <h2>Yangi lot kiritish</h2>
+        <div class="grid">
+
+
+            <div class="col-offset-0" style="padding-left: 10px;">
+                <span class="p-float-label">
+                    <input [(ngModel)]="new_lot" type="text" pInputText>
+                    <label for="float-input">Lot nomi</label>
+                </span>
+            </div>
+            <div class="col-offset-0" style="padding-left: 10px;">
+                <span class="p-float-label">
+                    <input [(ngModel)]="new_comment" type="text" pInputText>
+                    <label for="float-input">Comment</label>
+                </span>
+            </div>
+            <div class="col-offset-0" style="padding-left: 10px;">
+                <button pButton type="button" label="Tasdiqlash" (click)="submitted()"></button>
+            </div>
+        </div>
+
+    </div>

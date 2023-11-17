@@ -1,0 +1,158 @@
+
+<div class="card">
+
+    <p-table [value]="components" dataKey="id" editMode="row" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Unit</th>
+                <th>Quanitity</th>
+                <th>R_Quantity</th>
+                <th>Income Time</th>
+                <th>Comment</th>
+                <th style="width:8rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" #table1 name="table1" let-product let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="product">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.component_code">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.component_code}}
+                            <!-- {{product.batch_name}} -->
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.component_name">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.component_name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.izm">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.izm}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.quantity">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.quantity}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="number" [(ngModel)]="product.r_quantity">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.r_quantity}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="number" [(ngModel)]="product.income_time">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.income_time == '2000-01-01 00:00:00.000' ? " " : product.income_time}}
+                        </ng-template>
+                    </p-cellEditor>
+
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.comment">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.comment}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-replay" (click)="onRowEditCancel(product, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    <button *ngIf="!editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="deleteComponent(product)" class="p-button-rounded p-button-text p-button-danger"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <h2>Yangi Component kiritish</h2>
+    <div class="grid">
+
+
+        <div class="col-offset-0" style="padding-left: 10px;">
+            <span class="p-float-label">
+                <div class="justify-content-start">
+                    <p-dropdown [options]="list_component" [(ngModel)]="selected_list_component" optionLabel="code" [filter]="true" filterBy="code"
+                    (onChange)="componentChanged()"  [showClear]="true" placeholder="Select a Component">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item country-item-value" *ngIf="selected_list_component">
+                            <div>{{selected_list_component.code}} - {{selected_list_component.name}}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-comp pTemplate="item">
+                        <div class="country-item">
+                            <div>{{comp.code}} - {{comp.name}} - {{comp.checkpoint}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                    
+                </div >
+            </span>
+        </div>
+        <div class="col-offset-0" style="padding-left: 10px;">
+            <span class="p-float-label">
+                <p-inputNumber [(ngModel)]="new_quantity" [disabled]="!enableQuantity" (onInput)="inputChanged()" mode="decimal"
+    [minFractionDigits]="0" [maxFractionDigits]="2"></p-inputNumber>
+    
+                <label for="float-input">Quantity</label>
+            </span>
+        </div>
+        <div class="col-offset-0" style="padding-left: 10px;">
+            <span class="p-float-label">
+                <input [(ngModel)]="new_comment" [disabled]="!enableSubmit" type="text" pInputText>
+                <label for="float-input">Comment</label>
+            </span>
+        </div>
+        <div class="col-offset-0" style="padding-left: 10px;">
+            <button pButton type="button" label="Tasdiqlash" [disabled]="!enableSubmit" (click)="sumbitted()"></button>
+        </div>
+    </div>
+
+    <p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+    <p [hidden]="!added" style="color: green;">{{addedText}}</p>
+</div>
+<!-- <div style="padding-top: 20px;" class="file-upload">
+    <button pButton type="button" label="Fayl yuklash" (click)="fileUpload.click()" ></button>
+    {{fileName || "Fayl yuklanmagan."}} 
+ </div> -->
+<div style="padding-top: 20px;">
+    <input type="file"  class="file-upload" (change)="onFileSelected($event)">
+
+</div>
+<div style="padding-top: 30px;">
+    <button pButton pRipple type="button" icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-rounded p-button-text"></button>
+</div>

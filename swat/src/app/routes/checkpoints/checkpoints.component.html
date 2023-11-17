@@ -1,0 +1,82 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="checkpoints" [rows]="10" [paginator]="true" [globalFilterFields]="['name']" [loading]="loading" responsiveLayout="scroll"
+        [(selection)]="checkpoint" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Checkpoints</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText #textInput type="text" (input)="dt.filterGlobal(textInput.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    
+                </th>
+                <th pSortableColumn="code">Name <p-sortIcon field="code"></p-sortIcon></th>
+                <th>Photo</th>
+                <!-- <th pSortableColumn="name">Status <p-sortIcon field="name"></p-sortIcon></th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-checkpoint>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <a href="/checkpoints/{{checkpoint.id}}">{{checkpoint.name}}</a>
+                </td>
+                <td>
+                    <p-image [src]="'assets/photo/' + checkpoint.photo" [preview]="true" [alt]="checkpoint.name" width="100" class="shadow-4" ></p-image>
+                </td>
+                <!-- <td>{{checkpoint.status}}</td> -->
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(checkpoint)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(checkpoint)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{checkpoints ? checkpoints.length : 0 }} Checkpoints.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Component Details" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <img [src]="'assets/photo/' + checkpoint.photo" [alt]="checkpoint.photo" class="product-image" width="400" *ngIf="checkpoint.photo">
+        <div class="field">
+            <label for="code">Name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="checkpoint.name" required autofocus />
+            <small class="p-error" *ngIf="submitted && !checkpoint.name">Code is required.</small>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="photo">Photo</label>
+                <textarea pInputTextarea id="photo" [(ngModel)]="checkpoint.photo"></textarea>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+

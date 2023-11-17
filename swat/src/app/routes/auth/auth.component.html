@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="parent" (submit)="submit()" style="text-align:center;">
+    <div class="form-conftrol">
+        <input type="text" formControlName = "username" pInputText placeholder="Username">  
+        <div *ngIf="form.get('username')?.touched && form.get('username')?.invalid">
+            <small style="color: red;">Kiritish majburiy</small>
+        </div>   
+    </div>
+    <div class="form-conftrol" style="padding-top: 10px;">
+        <input type="password" formControlName = "password" pInputText placeholder="Password">  
+        <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+            <small style="color: red;">Kiritish majburiy</small>
+        </div>   
+    </div>
+    <div *ngIf="errorEvent">
+        <small style="color: red;">{{errMessage}}</small>
+    </div>
+
+
+    <button pButton label="Login" style="padding-top: 10px;" type="submit" [disabled]="form.invalid || submitted"></button>
+
+</form>
+
+<!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="who()"></button> -->

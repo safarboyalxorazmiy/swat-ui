@@ -1,0 +1,40 @@
+<div class="card">
+    <h5>Row Editing</h5>
+        <p-table [value]="components" dataKey="component_id" editMode="row">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th style="width:8rem"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                <tr [pEditableRow]="product">
+                    <td>
+                        {{product.code}}
+                    </td>
+                    <td>
+                        {{product.name}}
+                    </td>
+                    <td >
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" pInputText id="unit" type="number" [(ngModel)]="product.quantity" />
+
+                                <!-- <p-inputNumber [(ngModel)]="product.quantity" placeholder="Soni" mode="decimal" [minFractionDigits]="0" [maxFractionDigits]="1"></p-inputNumber> -->
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{product.quantity}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td style="text-align:center">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(product)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(product)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>

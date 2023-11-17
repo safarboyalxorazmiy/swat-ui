@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-conrainer">
+        <p>Date1</p>
+        <p-calendar [(ngModel)]="date1" [inline]="false"></p-calendar>
+        <p>Date1</p>
+        <p-calendar [(ngModel)]="date2" [inline]="false"></p-calendar>
+        <div style="padding-top: 10px; padding-bottom: 10px;">
+            <button pButton type="button" label="Tanlash" (click)="getInfo()"></button>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="report">
+    <p-table [value]="result" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="email">User <p-sortIcon field="email"></p-sortIcon></th>
+            <th pSortableColumn="component">Component <p-sortIcon field="component"></p-sortIcon></th>
+            <th pSortableColumn="akt_type">Akt type <p-sortIcon field="akt_type"></p-sortIcon></th>
+            <th pSortableColumn="time">Time <p-sortIcon field="time"></p-sortIcon></th>
+            <th pSortableColumn="quantity">Quantity <p-sortIcon field="quantity"></p-sortIcon></th>
+            <th pSortableColumn="comment">Comment <p-sortIcon field="comment"></p-sortIcon></th>
+            <th>Photo</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td >{{product.id}}</td>
+            <td >{{product.email}}</td>
+            <td >{{product.component}}</td>
+            <td >{{product.akt_type}}</td>
+            <td >{{product.time}}</td>
+            <td >{{product.quantity}}</td>
+            <td >{{product.comment}}</td>
+            <td>
+              <p-image [src]="'assets/photo/' + product.photo" [preview]="true" [alt]="product.code"  width="100" class="shadow-4"></p-image>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div style="padding-top: 10px">
+          <button pButton type="button" label="Excel" (click)="exportExcel()" ></button>
+      </div>
+</div>

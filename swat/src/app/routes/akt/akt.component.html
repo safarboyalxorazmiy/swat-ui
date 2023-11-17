@@ -1,0 +1,173 @@
+<div *ngIf="typeSelected">
+    <div clas="card-container" >
+        <div class="flex">
+            <div class="flex-1 flex align-items-center justify-content-right font-bold text-gray-900 m-2 px-5 py-3">
+                <h2>
+                    Liniyadan yechish uchun
+                </h2>
+            </div>
+            <div class="flex-1 flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3">
+                <a href="/akt/report">Report</a>
+            </div>
+    
+    
+        </div>
+    </div>
+    
+    <!-- <div class="grid">
+        <div class="col">
+            <h2></h2>
+        </div>
+        <div class="col">
+            <a href="/report">Report</a>
+        </div>
+    </div>  -->
+    <div class="grid">
+        <div class="col-offset-0">
+            <p-dropdown [options]="lines" [(ngModel)]="line" optionLabel="name" placeholder="Liniyani tanlang" (onChange)="changed()"></p-dropdown>
+        </div>
+    
+    <!-- <p-dropdown [options]="components" [(ngModel)]="component" optionLabel="name, quantity" placeholder="Component tanlang"></p-dropdown> -->
+        <div class="col-offset-0">
+            <p-dropdown [options]="components" [(ngModel)]="component" optionLabel="code" [filter]="true" filterBy="code"
+                        [showClear]="true" placeholder="Select a Component">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item country-item-value" *ngIf="component">
+                                <div>{{component.code}} - {{component.name}} - {{component.quantity}}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-comp pTemplate="item">
+                            <div class="country-item">
+                                <div>{{comp.code}} - {{comp.name}} - {{comp.quantity}}</div>
+                            </div>
+                        </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-offset-0">
+            <p-inputNumber [(ngModel)]="quantity" placeholder="soni" mode="decimal" [minFractionDigits]="2"></p-inputNumber>
+        </div>
+        <div class="col-offset-0">
+            <span class="p-float-label">
+                <input [(ngModel)]="comment" type="text" pInputText> 
+                <label for="float-input">Comment</label>
+            </span>
+        </div>
+    </div>
+    
+    
+    <p-fileUpload name="image" (onSelect)="onBasicUpload($event)"
+    [multiple]="false" 
+    [showUploadButton]="false"
+    [showCancelButton]="false"
+    chooseLabel="Fayl yuklash"
+    [auto]="false" accept="image/*" >
+    <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+        </ul>
+    </ng-template>
+    </p-fileUpload>
+    
+    <div>
+        <button pButton type="button" label="Tasdiqlash" (click)="submitted()" ></button>
+    </div>
+    
+    <p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+    <p [hidden]="!added" style="color: green;">{{addedText}}</p>
+</div>
+
+<div *ngIf="!typeSelected">
+    <div clas="card-container" >
+        <div class="flex">
+            <div class="flex-1 flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3">
+                <button pButton type="button" (click)="typSelect(1)" label="Production" class="p-button-text"></button>
+            </div>
+            <div class="flex-1 flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3">
+                <button pButton type="button" (click)="typSelect(2)" label="Import" class="p-button-text"></button>
+            </div>
+    
+    
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="typeSelected">
+    <div clas="card-container" >
+        <div class="flex">
+            <div class="flex-1 flex align-items-center justify-content-right font-bold text-gray-900 m-2 px-5 py-3">
+                <h2>
+                    Ombordan yechish uchun
+                </h2>
+    
+    
+        </div>
+    </div>
+</div>
+    
+<div class="grid">
+        <div class="col-offset-0">
+            <p-dropdown [options]="componentsWare" [(ngModel)]="componentWare" (onChange)="componentChange()" optionLabel="code"
+                [filter]="true" filterBy="code" [showClear]="true" placeholder="Select a Component">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="componentWare">
+                        <div>{{componentWare.code}} - {{componentWare.name}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-comp pTemplate="item">
+                    <div class="country-item">
+                        <div>{{comp.code}} - {{comp.name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-offset-0">
+            <p-dropdown [options]="cells" [disabled]="!enableCell" [(ngModel)]="selectedCell" (onChange)="cellChange()"  optionLabel="adress" [filter]="true"
+                filterBy="adress" [showClear]="true" placeholder="Yacheyka tanlang">
+                <ng-template pTemplate="selectedCell">
+                    <div class="country-item country-item-value" *ngIf="selectedCell">
+                        <div>{{selectedCell.adress}} - {{selectedCell.component_code}} - {{selectedCell.lot_name}} - {{selectedCell.quantity}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-comp pTemplate="item">
+                    <div class="country-item">
+                        <div>{{comp.adress}} - {{comp.component_code}} - {{comp.lot_name}} - {{comp.quantity}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+
+        <div class="col-offset-0">
+            <p-inputNumber [(ngModel)]="quantity2" placeholder="Soni" [disabled]="!enableInput" (onInput)="inputChanged()" mode="decimal" [minFractionDigits]="0"
+                [maxFractionDigits]="1"></p-inputNumber>
+        </div>
+        <div class="col-offset-0">
+            <span class="p-float-label">
+                <input [(ngModel)]="comment2" type="text" pInputText> 
+                <label for="float-input">Comment</label>
+            </span>
+
+        </div>
+    </div>    
+    
+    <p-fileUpload name="image" (onSelect)="onBasicUpload2($event)"
+    [multiple]="false" 
+    [showUploadButton]="false"
+    [showCancelButton]="false"
+    chooseLabel="Fayl yuklash"
+    [auto]="false" accept="image/*" >
+    <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles2">{{file.name}} - {{file.size}} bytes</li>
+        </ul>
+    </ng-template>
+    </p-fileUpload>
+    
+    <div>
+        <button pButton type="button" [disabled]="!enableSubmit" label="Tasdiqlash" (click)="submitted2()" ></button>
+    </div>
+    
+    <p [hidden]="!someError2" style="color: red;">{{errorText2}}</p>
+    <p [hidden]="!added2" style="color: green;">{{addedText2}}</p>
+</div>
+

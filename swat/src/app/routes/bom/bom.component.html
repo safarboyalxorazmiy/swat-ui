@@ -1,0 +1,56 @@
+<button pButton type="button" label="New Model" (click)="createModel()"></button>
+ <p-dialog header="Create New Model" [(visible)]="productDialog">
+ 
+    <div class="card">
+        <div class="field">
+            <input type="text" *ngIf="newModel" placeholder="Model Name" [(ngModel)]="newModel.name" pInputText />
+        </div>
+        <div class="field">
+            <input type="text" *ngIf="newModel" placeholder="Model Code" [(ngModel)]="newModel.code" pInputText />
+        </div>
+        <div class="field">
+            <input type="text" *ngIf="newModel" placeholder="Model Comment" [(ngModel)]="newModel.comment" pInputText />
+        </div>
+        <div class="field">
+            <input type="text" *ngIf="newModel" placeholder="Model assembly" [(ngModel)]="newModel.assembly" pInputText />
+        </div>
+        <div class="formgrid grid">
+            <div class="field col">
+                <button pButton type="button" label="Cancel" (click)="cancelDlg()"></button>
+            </div>
+            <div class="field col">
+                <button pButton type="button" label="Accept" (click)="acceptDlg(newModel)"></button>
+            </div>
+        </div>
+    </div>
+ </p-dialog>
+<div class="card">
+    <p-table [value]="models" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Comment</th>
+                <th>Assembly</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-model>
+            <tr>
+                <td>
+                    <a href='{{"/bom/edit/" + model.id}}'>{{model.name}}</a>
+                </td>
+                <td>{{model.code}}</td>
+                <td>{{model.comment}}</td>
+                <td>{{model.assembly}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editModel(model)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteModel(model)"></button>
+                </td>
+                
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

@@ -1,0 +1,11 @@
+<div class="grid">
+  <div class="col">
+    <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
+  </div>
+  <div class="col absolute right-0">
+    <small *ngIf="isAuth" class="flex flex-wrap align-items-center justify-content-center"> {{email}} </small>
+    <button *ngIf="isAuth" pButton pRipple label="Logout" icon="pi pi-sign-out" class="p-button-rounded p-button-text" (click)="logout()"></button>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

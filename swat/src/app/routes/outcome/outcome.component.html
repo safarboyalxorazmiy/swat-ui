@@ -1,0 +1,161 @@
+<p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+<div class="flex-1 flex align-items-left justify-content-left font-bold text-gray-900 m-2 px-5 py-3">
+    <a href="/outcome/report">Report</a>
+</div>
+<!-- <div class="card" style="margin-left: 10px">
+    <div clas="card-container" >
+        <div class="flex">
+            <div class="flex-1 flex align-items-center justify-content-right font-bold text-gray-900 m-2 px-5 py-3">
+                <h2>
+                    Modellar bo'yicha chiqim qilish
+                </h2>
+            </div>
+            <div class="flex-1 flex align-items-center justify-content-center font-bold text-gray-900 m-2 px-5 py-3">
+                <a href="/outcome/report">Report</a>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="grid">
+        <div class="justify-content-start">
+            <p-dropdown [options]="models" [(ngModel)]="model" placeholder="Modelni tanlang" optionLabel="name" [showClear]="true"></p-dropdown>
+            <p-inputNumber [(ngModel)]="val" placeholder="Soni" locale="ru-RU"></p-inputNumber>
+            <button pButton type="button" label="Tekshirish" (click)="check()" ></button>
+        </div >
+
+    </div>
+</div> -->
+
+<!-- <div [hidden]="!showOutcome" style="margin-left: 10px" class="card">
+    <p-table [value]="outcome"  dataKey="id" [scrollable]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Available</th>
+                <th>Balance</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr [ngStyle]="{'color': (product.available < product.quantity)?'red':'black'}">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.code">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.code}} 
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.name" required>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.name}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="number" [(ngModel)]="product.quantity">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.quantity.toLocaleString('ru-RU') }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td >
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.unit">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.unit}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="product.available">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.available.toLocaleString('ru-RU')}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td locale="ru-RU">
+                    <p-cellEditor>
+                        <ng-template pTemplate="output" >
+                            {{ product.available - product.quantity}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td >
+            </tr>
+        </ng-template>
+    </p-table>
+    <button [hidden]="!tasdiqlash" pButton type="button" label="Tasdiqlash" (click)="submitModel()" ></button>
+</div>
+<div [hidden]="!modelAccept">
+    <h3 [ngStyle]="{'color': (alert)?'red':'green'}">{{modelAcceptText}}</h3>
+</div> -->
+
+<div class="card" style="margin-left: 10px">
+    <div>
+        <h2>
+            Komponent bo'yicha chiqim qilish
+        </h2>
+    </div>
+    <div class="grid">
+        <div class="justify-content-start">
+            <p-dropdown [options]="outComps" [(ngModel)]="outComp" (onChange)="componentChange()" optionLabel="code"
+                [filter]="true" filterBy="code" [showClear]="true" placeholder="Select a Component">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="outComp">
+                        <div>{{outComp.code}} - {{outComp.name}} - {{outComp.checkpoint}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-comp pTemplate="item">
+                    <div class="country-item">
+                        <div>{{comp.code}} - {{comp.name}} - {{comp.checkpoint}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+
+            <p-dropdown
+                [options]="logists" 
+                [(ngModel)]="selectedLogist"
+                [showClear]="true" 
+                placeholder="Select a Logist">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item">
+                        {{selectedLogist.firstName}} {{selectedLogist.lastName}}
+                    </div>
+                </ng-template>
+
+                <ng-template let-logist pTemplate="item">
+                    <div class="country-item">
+                        {{logist.firstName}} {{logist.lastName}}
+                    </div>
+                </ng-template>
+            </p-dropdown>
+
+            <p-inputNumber [style.width.%]="100" [(ngModel)]="valComp" placeholder="Soni" (onInput)="inputChanged()" mode="decimal" [minFractionDigits]="0"
+                [maxFractionDigits]="5"></p-inputNumber>
+
+            <button pButton type="button" label="Tekshirish" (click)="submitComp()"></button>
+
+        </div>
+
+    </div>
+
+    <p [hidden]="!someError" style="color: red;">{{errorText}}</p>
+    <p [hidden]="!someAdded" style="color: green;">{{addedText}}</p>
