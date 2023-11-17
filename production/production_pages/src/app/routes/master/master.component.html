@@ -338,6 +338,24 @@
                       </h2>
                     </div>
                     
+                    <div class="col-auto ms-auto d-print-none">
+                      <div class="btn-list">
+                        <span class="d-none d-sm-inline">
+                          <a href="#" class="btn">
+                            New view
+                          </a>
+                        </span>
+
+                        <a class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="showModal()">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                          Mahsulotni linyaga berish.
+                        </a>
+
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                        </a>
+                      </div>
+                    </div>
                   </div>
 
                     <style>
@@ -392,6 +410,15 @@
                                   <h3 class="card-title">Sizdagi mavjud detallar</h3>
                                 </div>
                                 <div class="table-responsive">
+                                  
+                                  <div style="margin: 10px 24px">
+                                    <input 
+                                      type="text" 
+                                      class="form-control" 
+                                      style="width: 100%;  border-color: #0366d6;" placeholder="Qidirish.."
+                                      (keyup)="searchVerifiedComponents($event)" />
+                                  </div>
+
                                   <table class="table card-table table-vcenter">
                                     <tr  *ngFor="let item of verifiedComponents">
                                       <td class="data-1">{{ item.componentCode }} - {{item.componentName}} - {{item.componentSpecs}}</td>
@@ -407,8 +434,98 @@
         </div>
     </div>
     
+    <div *ngIf="modal" class="modal modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Mahsulotni linyaga berish</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Masterni tanlang.</label>
+              <p-dropdown 
+                  [options]="masters" 
+                  [(ngModel)]="selectedMaster"
+                  [showClear]="true" 
+                  placeholder="Master"
+                  [style]="{'width':'100%'}">
+                  <ng-template pTemplate="selectedItem">
+                      <div class="country-item">
+                          {{selectedMaster.firstName}} {{selectedMaster.lastName}}
+                      </div>
+                  </ng-template>
+
+                  <ng-template let-master pTemplate="item">
+                      <div class="country-item">
+                          {{master.firstName}} {{master.lastName}}
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+
+              <span style="color: red;">{{ masterError }}</span>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Detallni tanlang.</label>
+                  
+                  <p-dropdown [style]="{'width':'100%'}"
+                      [options]="verifiedComponents" 
+                      [(ngModel)]="selectedComponent"
+                      [showClear]="true" 
+                      placeholder="Detall">
+                  <ng-template pTemplate="selectedItem">
+                      <div class="country-item">
+                          {{ selectedComponent.componentCode }} - {{selectedComponent.componentName}} - {{selectedComponent.componentSpecs}}
+                      </div>
+                  </ng-template>
+
+                  <ng-template let-component pTemplate="item">
+                      <div class="country-item">
+                          {{ component.componentCode }} - {{component.componentName}} - {{component.componentSpecs}}
+                      </div>
+                  </ng-template>
+                  </p-dropdown>
+                  <span style="color: red;">{{ componentError }}</span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="form-label">Qiymat.</label>
+                    
+                    <p-inputNumber
+                      [style]="{'width':'100%'}"  [(ngModel)]="quantity" placeholder="Soni" 
+                      [style.width.%]="100" mode="decimal" [minFractionDigits]="0"
+                      [maxFractionDigits]="5"></p-inputNumber>
+                    <span style="color: red;">{{ quantityError }}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <a class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="closeModal()">Cancel</a>
+            
+            <a class="btn btn-primary ms-auto" data-bs-dismiss="modal" (click)="submitComponent()">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+              <span>Berish.</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="isGiven" class="createdModal">
+      Muvafaqqiyatli berilidi!
+    </div>
+
     <div *ngIf="isCreated" class="createdModal">
-      Successfully created!
+      Muvafaqqiyatli yaratildi!
     </div>
   </div>
 </body>

@@ -217,6 +217,14 @@ export class ProductionService {
         })
       }
 
+      public async searchVerifiedMasterComponents(token: any, searchQuery: any){
+        return new Promise<IProduction[]>((resolve) => {
+          this.http.get<IProduction[]>(this.server.ServerNameV2 + '/master/component/search?search=' + searchQuery, {headers: {"Authorization": "Bearer " + token}}).subscribe(e=>{
+            resolve(e);
+          })
+        })
+      }
+
       public async getVerifiedComponentsMaster(token: any){
         return new Promise<IProduction[]>((resolve) => {
           this.http.get<IProduction[]>(this.server.ServerNameV2 + '/master/component/info', {headers: {"Authorization": "Bearer " + token}}).subscribe(e=>{

@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ProductionService } from '../../services/production.service'
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-packing',
@@ -34,12 +35,11 @@ export class LogistComponent implements OnInit {
   componentError:any = "";
   masterError:any = "";
 
-  private socket: WebSocket;
-
-
-  constructor(public api: ProductionService, public renderer: Renderer2) {
-    this.connectWebSocket();
-  }
+  constructor(
+    public api: ProductionService, 
+    public renderer: Renderer2,
+    private titleService: Title
+  ) {}
 
   ngAfterViewInit() {
     if (localStorage.getItem("logist_token") != null) {
@@ -53,11 +53,9 @@ export class LogistComponent implements OnInit {
     this.getMasters();
   }
 
-  async getMasters() {
-    this.masters = await this.api.getMasters();
-  }
-
   async ngOnInit(): Promise<void> {
+    this.titleService.setTitle("Logist - Bosh sahifa");
+
     this.intervalId = setInterval(() => {
       this.time = new Date();
     }, 1000);
@@ -68,6 +66,10 @@ export class LogistComponent implements OnInit {
       }
     }, 1000)
   }
+
+  async getMasters() {
+    this.masters = await this.api.getMasters();
+  }
   
   async getNotVerifiedComponents() {
     this.notVerifiedComponents = await this.api.getNotVerifiedComponents(this.logistToken);
@@ -76,27 +78,6 @@ export class LogistComponent implements OnInit {
   async getVerifiedComponents() {
     this.verifiedComponents = await this.api.getVerifiedComponents(this.logistToken);
   }
-
-  private connectWebSocket(): void {
-    const wsUrl = 'ws://192.168.5.193:1212/ws'; // Update with your WebSocket server URL
-    this.socket = new WebSocket(wsUrl);
-
-    this.socket.onmessage = (event) => {
-      // Handle incoming WebSocket messages
-      const data = JSON.parse(event.data);
-      console.log('Received WebSocket message:', data);
-      // Update your Angular component with the new data
-    };
-
-    this.socket.onclose = (event) => {
-      console.log('WebSocket closed:', event);
-    };
-
-    this.socket.onerror = (event) => {
-      console.error('WebSocket error:', event);
-    };
-  }
-
 
   async acceptRequest(requestId: number) {
     await this.api.verifyRequest(this.accAss, requestId)
@@ -183,7 +164,6 @@ export class LogistComponent implements OnInit {
     }
   }
   
-
   async searchVerifiedComponents(event: any) {
     console.log(event.target.value);
 

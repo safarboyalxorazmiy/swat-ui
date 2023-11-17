@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MasterRoutingModule } from './master-routing.module';
 import { MasterComponent } from './master.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +9,9 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ImageModule } from 'primeng/image';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { MasterRoutingModule } from './master-routing.module'; 
 
 @NgModule({
   declarations: [
@@ -18,14 +19,16 @@ import { ImageModule } from 'primeng/image';
   ],
   imports: [
     CommonModule,
-    MasterRoutingModule,
+    MasterRoutingModule, 
     InputTextModule,
     FormsModule,
     ToolbarModule,
     TableModule,
     ButtonModule,
     InputSwitchModule,
-    ImageModule
+    ImageModule,
+    DropdownModule,
+    InputNumberModule
   ]
 })
 export class MasterModule { }
