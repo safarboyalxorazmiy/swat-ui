@@ -17,7 +17,10 @@ export class MasterComponent implements OnInit {
   password: string = '';
   isLoggedIn: boolean = false;
   notVerifiedComponents: any = [];
+
   verifiedComponents: any = [];
+  composites: any = [];
+
   masterToken: any = "";
   isCreated:any = false;
   menuOpened:boolean = false;
@@ -36,6 +39,8 @@ export class MasterComponent implements OnInit {
   masterError:any = "";
   masters:any = [];
 
+  searchFilter: string;
+
   constructor(
     public api: ProductionService, 
     public renderer: Renderer2, 
@@ -50,6 +55,7 @@ export class MasterComponent implements OnInit {
     }
 
     this.getVerifiedComponents();
+    this.getComposites();
   }
 
   async ngOnInit(): Promise<void> {
@@ -86,9 +92,14 @@ export class MasterComponent implements OnInit {
     this.verifiedComponents = await this.api.getVerifiedComponentsMaster(this.masterToken);
   }
 
+  async getComposites() {
+    this.composites = await this.api.getLineCompositesMaster(this.masterToken);
+  }
+
   async acceptRequest(requestId: number) {
     await this.api.verifyRequestMaster(this.accAss, requestId)
     this.getVerifiedComponents();
+    this.getComposites();
     this.isCreated = true;
 
     setTimeout(() => {
@@ -99,6 +110,7 @@ export class MasterComponent implements OnInit {
   async cancelRequest(requestId: number) {
     await this.api.cancelRequestMaster(this.accAss, requestId);
     this.getVerifiedComponents();
+    this.getComposites();
   }
   
   async submit() {
@@ -155,6 +167,7 @@ export class MasterComponent implements OnInit {
     
     await this.api.setMasterLine(localStorage.getItem("master_token"),  line.id);
     this.getVerifiedComponents();
+    this.getComposites();
   }
 
   async searchVerifiedComponents(event: any) {
@@ -199,7 +212,7 @@ export class MasterComponent implements OnInit {
       }
       console.log(data)
   
-      let result = await this.api.submitComponent(this.masterToken, data);
+      let result = await this.api.submitComponentFromMaster(this.masterToken, data);
   
       if (result) {
         this.modal = false;

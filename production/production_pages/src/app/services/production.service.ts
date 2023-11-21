@@ -233,6 +233,14 @@ export class ProductionService {
         })
       }
 
+      public async getLineCompositesMaster(token: any){
+        return new Promise<IProduction[]>((resolve) => {
+          this.http.get<IProduction[]>(this.server.ServerNameV2 + '/master/composite/info', {headers: {"Authorization": "Bearer " + token}}).subscribe(e=>{
+            resolve(e);
+          })
+        })
+      }
+
       public async getMasters(){
         return new Promise<IProduction[]>((resolve) => {
           this.http.get<IProduction[]>(this.server.ServerNameV2 + '/master/get/info')
@@ -281,6 +289,24 @@ export class ProductionService {
     
         return new Promise<IProduction[]>((resolve, reject) => {
           this.http.post<IProduction[]>(this.server.ServerNameV2 + '/master/component/submit', body, { headers })
+            .subscribe(
+              (response: IProduction[]) => {
+                resolve(response);
+              },
+              (error) => {
+                reject(error);
+              }
+            );
+        });
+      }
+
+      public async submitComponentFromMaster(token: any, body: any): Promise<IProduction[]> {
+        const headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + token
+        });
+    
+        return new Promise<IProduction[]>((resolve, reject) => {
+          this.http.post<IProduction[]>(this.server.ServerNameV2 + '/master/component/submit/from/master', body, { headers })
             .subscribe(
               (response: IProduction[]) => {
                 resolve(response);

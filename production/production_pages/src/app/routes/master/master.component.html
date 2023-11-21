@@ -450,6 +450,9 @@
                   [(ngModel)]="selectedMaster"
                   [showClear]="true" 
                   placeholder="Master"
+                  [filter]="true"
+                  [filterBy]="'firstName'"
+                  [filterPlaceholder]="'Masterni qidirish...'"
                   [style]="{'width':'100%'}">
                   <ng-template pTemplate="selectedItem">
                       <div class="country-item">
@@ -472,23 +475,30 @@
                 <div class="mb-3">
                   <label class="form-label">Detallni tanlang.</label>
                   
-                  <p-dropdown [style]="{'width':'100%'}"
-                      [options]="verifiedComponents" 
-                      [(ngModel)]="selectedComponent"
-                      [showClear]="true" 
-                      placeholder="Detall">
-                  <ng-template pTemplate="selectedItem">
-                      <div class="country-item">
-                          {{ selectedComponent.componentCode }} - {{selectedComponent.componentName}} - {{selectedComponent.componentSpecs}}
-                      </div>
-                  </ng-template>
+                  
+                  <p-dropdown 
+                    [style]="{'width':'100%'}"
+                    [options]="composites" 
+                    [(ngModel)]="selectedComponent"
+                    [showClear]="true" 
+                    [filter]="true"
+                    [filterBy]="'componentCode'"
+                    [filterPlaceholder]="'Detalni qidirish...'"
+                    placeholder="Detall"
+                  >
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item">
+                            {{ selectedComponent.componentCode }} - {{selectedComponent.componentName}} - {{selectedComponent.componentSpecs}}
+                        </div>
+                    </ng-template>
 
-                  <ng-template let-component pTemplate="item">
-                      <div class="country-item">
-                          {{ component.componentCode }} - {{component.componentName}} - {{component.componentSpecs}}
-                      </div>
-                  </ng-template>
+                    <ng-template let-component pTemplate="item">
+                        <div class="country-item">
+                            {{ component.componentCode }} - {{component.componentName}} - {{component.componentSpecs}}
+                        </div>
+                    </ng-template>
                   </p-dropdown>
+
                   <span style="color: red;">{{ componentError }}</span>
                 </div>
               </div>
