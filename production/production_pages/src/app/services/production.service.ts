@@ -345,4 +345,51 @@ export class ProductionService {
       })
     })
   }
+
+  public async getModelByName(token: any, name: any){
+    return new Promise((resolve) => {
+      this.http.get(this.server.ServerNameV2 + '/api/v1/model/get?name=' + name, 
+        { 
+          headers: { "Authorization": "Bearer " + token } 
+        }
+      )
+      .subscribe(e=>{
+        resolve(e);
+      })
+    })
+  }
+
+  public async setPlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
+    const url =
+      this.server.ServerNameV2 +
+      '/api/v1/fridge/plan/set?modelId=' +
+      modelId +
+      '&plan=' +
+      plan;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+
+    const body = { modelId, plan };
+
+    try {
+      const response = await this.http.post<IProduction[]>(url, body, { headers }).toPromise();
+
+      // Ensure that the response is defined before returning
+      if (response !== undefined) {
+        return response;
+      } else {
+        throw new Error('Invalid response from the server.');
+      }
+    } catch (error) {
+      this.handleError(error);
+      throw new Error('Failed to set plan.'); // You can customize this message
+    }
+  }
+
+  private handleError(error: any): void {
+    console.error('An error occurred:', error);
+  }
 }

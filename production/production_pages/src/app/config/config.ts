@@ -10,7 +10,7 @@ export class ConfigService {
 
   // public ServerName:string = ''
   public ServerName:string = 'http://localhost:8080' //test
-  public ServerNameV2:string = 'http://localhost:8080' //test
+  public ServerNameV2:string = 'http://192.168.5.193:1212' //test
 
   constructor() {
   }
