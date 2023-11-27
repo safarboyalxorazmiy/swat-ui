@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IModels, IProduction } from '../models/production'
 import { IPacking } from '../models/packing'
 import {ConfigService} from '../config/config'
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -386,6 +386,34 @@ export class ProductionService {
     } catch (error) {
       this.handleError(error);
       throw new Error('Failed to set plan.'); // You can customize this message
+    }
+  }
+
+  public async deletePlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
+    const url =
+      this.server.ServerNameV2 +
+      '/api/v1/fridge/plan/delete?modelId=' +
+      modelId +
+      '&plan=' +
+      plan;
+    
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + token);
+  
+    const options = { headers };
+  
+    try {
+      const response = await this.http.delete<IProduction[]>(url, options).toPromise();
+  
+      if (response !== undefined) {
+        return response;
+      } else {
+        throw new Error('Invalid response from the server.');
+      }
+    } catch (error: any) {
+      this.handleError(error);
+      throw new Error('Failed to set plan. Details: ' + error.message);
     }
   }
 

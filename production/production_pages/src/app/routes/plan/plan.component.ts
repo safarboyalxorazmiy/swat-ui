@@ -128,4 +128,16 @@ export class PlanComponent implements OnInit {
     this.closeCreateModal();
     this.getPlans();
   }
+
+  async deletePlan(plan:any) {
+    await this.api.deletePlan(this.accountantToken, plan.modelId, plan.plan);
+    
+    this.getPlans();
+
+    this.isDeleted = true;
+
+    setTimeout(() => {
+      this.isDeleted = false;
+    }, 2000);
+  }
 }

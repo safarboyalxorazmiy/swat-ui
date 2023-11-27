@@ -130,6 +130,10 @@
         animation: wiggle 2s linear infinite;
     }
 
+    .deleteModal {
+        animation: wiggle 2s linear infinite;
+    }
+
     /* Keyframes */
     @keyframes wiggle {
         0%, 7% {
@@ -304,7 +308,7 @@
                             width: 35px; 
                             padding: 5px; 
                             border-radius: 50%;
-                            border: 1px solid #fff;">
+                            border: 1px solid #fff;" (click)="deletePlan(plan)">
                                 <i class="material-icons" style=" font-size: 25px;">delete</i>
                         </div>
                     </div>
