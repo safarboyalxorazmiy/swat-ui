@@ -5,7 +5,10 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.css']
+  styleUrls: [
+    './plan.component.css',
+    "../../../../node_modules/material-icons/iconfont/material-icons.css"
+]
 })
 export class PlanComponent implements OnInit {
   
@@ -36,8 +39,10 @@ export class PlanComponent implements OnInit {
   plan: any;
 
   isCreated:any = false;
+  isDeleted:any = false;
 
   plans: any;
+  createModalIsVisible:boolean = false;
 
   constructor(
     public api: ProductionService, 
@@ -53,6 +58,14 @@ export class PlanComponent implements OnInit {
       
       this.getPlans();
     }
+  }
+
+  async closeCreateModal() {
+    this.createModalIsVisible = false;
+  }
+
+  async showCreateModal() {
+    this.createModalIsVisible = true;
   }
 
   async getPlans() {
@@ -99,7 +112,7 @@ export class PlanComponent implements OnInit {
     console.log(this.innerModels)
   }
 
-  async setPlan() {
+  async createPlan() {
     let result = await this.api.createPlan(this.accountantToken, this.selectedInnerModel.id, this.plan);
     console.log(result)
 
@@ -111,5 +124,8 @@ export class PlanComponent implements OnInit {
 
     this.selectedModel = null;
     this.selectedInnerModel = null;
+    this.plan = null;
+    this.closeCreateModal();
+    this.getPlans();
   }
 }

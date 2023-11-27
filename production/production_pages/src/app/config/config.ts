@@ -7,11 +7,8 @@ export interface ILangItem{
   providedIn: 'root'
 })
 export class ConfigService {
+  public ServerName:string = 'http://localhost:8080'
+  public ServerNameV2:string = 'http://192.168.5.193:1212'
 
-  // public ServerName:string = ''
-  public ServerName:string = 'http://localhost:8080' //test
-  public ServerNameV2:string = 'http://192.168.5.193:1212' //test
-
-  constructor() {
-  }
+  constructor() {}
 }

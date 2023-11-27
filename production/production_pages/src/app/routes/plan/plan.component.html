@@ -179,6 +179,42 @@
         font-size: 1em;
         transform-origin: 50% 5em;
     }
+
+    .deleteModal {
+        position: absolute;
+        right: calc(3em);
+        bottom: calc(3em);
+        
+        height: 4em;
+        width: 20em;
+        
+        background: #fff;
+        background: linear-gradient(top, #fafafa, #fff);
+        border: none;
+        border-top: 3px solid #C60001;
+        padding: 20px;
+        border-radius: 0 0 0.2em 0.2em;
+        color: #000;
+        font-family: Helvetica, Arial, Sans-serif;
+        font-size: 1em;
+        transform-origin: 50% 5em;
+    }
+
+    ul li:hover {
+        background: #e9ecef;
+    }
+
+    .delete-icon:hover i {
+        color: #e9ecef;
+    }
+
+    .delete-icon i {
+        color: #fff;
+    }
+
+    .edit-icon:hover i {
+        color: #111;
+    }
 </style>
 <body>
   <form (ngSubmit)="submit()" *ngIf="!isLoggedIn">
@@ -198,72 +234,100 @@
 
   <div *ngIf="isLoggedIn">
     <div style="display: flex; justify-content: center; gap: 20px;">
-        <div class="left" style="width: 50%;">
-            <div style="width: 100%;">
-                <label class="form-label">Modelni tanlang.</label>
-                <p-dropdown 
-                    [options]="models" 
-                    [(ngModel)]="selectedModel"
-                    [showClear]="true" 
-                    placeholder="Model"
-                    [filter]="true"
-                    [filterBy]="'name'"
-                    [filterPlaceholder]="'Modelni qidirish...'"
-                    [style]="{'width':'100%'}"
-                    (onChange)="selectModel($event)">
-                    >
-                    <ng-template pTemplate="selectedItem">
-                        <div class="country-item">
-                            {{selectedModel.name}} 
+        <div 
+            style="
+                width: 75%; 
+                margin-top: 25px; 
+                border: 1px solid #ced4da; 
+                border-radius: 6px; 
+                background-color: #fff;">
+            <ul 
+                style="
+                    width: 100%; 
+                    list-style-type: none; 
+                    padding: 0;
+                    margin: 0;">
+                <li 
+                    style="
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center; 
+                        padding: 10px 30px;
+                        border-bottom: 1px solid #ced4da;
+                        font-size: 16px;" *ngFor="let plan of plans">
+                    <div 
+                        style="
+                            width: 50%;">
+                        {{plan.modelName}} {{plan.modelCode}} {{plan.modelComment}}
+                    </div>
+                    
+                    <div 
+                        style="
+                            width: 30%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        ">{{plan.plan}}</div>   
+                    
+                    <div style="
+                        width: 20%; 
+                        display: flex; 
+                        justify-content: flex-end;
+                        gap: 10px; ">
+                        <div class="edit-icon"
+                            style="
+                                display: flex; 
+                                align-items: center; 
+                                justify-content: center; 
+                                cursor: pointer; 
+                                background-color: #FBC02D; 
+                                height: 35px; 
+                                width: 35px; 
+                                padding: 5px; 
+                                border-radius: 50%;">
+
+                            <i class="material-icons" 
+                            style="
+                                font-size: 25px;
+                            ">edit</i>
                         </div>
-                    </ng-template>
-        
-                    <ng-template let-model pTemplate="item">
-                        <div class="country-item">
-                            {{model.name}}
+                        
+                        <div 
+                            class="delete-icon" 
+                            style="
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center; 
+                            cursor: pointer; 
+                            background-color: #C60001; 
+                            height: 35px; 
+                            width: 35px; 
+                            padding: 5px; 
+                            border-radius: 50%;
+                            border: 1px solid #fff;">
+                                <i class="material-icons" style=" font-size: 25px;">delete</i>
                         </div>
-                    </ng-template>
-                </p-dropdown>
-            </div>
-        
-            <div *ngIf="selectedModel != null" style="width: 100%;">
-                <label class="form-label">{{selectedModel.name}}ning modelini tanlang.</label>
-        
-                <p-dropdown 
-                    [options]="innerModels" 
-                    [(ngModel)]="selectedInnerModel"
-                    [showClear]="true" 
-                    placeholder="{{selectedModel.name}}ning modeli"
-                    [filter]="true"
-                    [filterBy]="'name'"
-                    [filterPlaceholder]="'Modelni qidirish...'"
-                    [style]="{'width':'100%'}">
-                    <ng-template pTemplate="selectedItem">
-                        <div class="innermodel-item">
-                            {{selectedInnerModel.name}} {{selectedInnerModel.code}} {{selectedInnerModel.comment}}
-                        </div>
-                    </ng-template>
-        
-                    <ng-template let-innermodel pTemplate="item">
-                        <div class="innermodel-item">
-                            {{innermodel.name}} {{innermodel.code}} {{innermodel.comment}}
-                        </div>
-                    </ng-template>
-                </p-dropdown>
-            </div>
-        
-            <div *ngIf="selectedInnerModel != null" style="width: 100%; margin-top: 20px;">
-                <label class="form-label">Planni kiriting!</label>
-                
-                <input type="text"  [(ngModel)]="plan" class="form-control" style="border: 1px solid #ced4da;" placeholder="Plan.." />
-        
-                <button type="submit" class="btn-primary" (click)="setPlan()">Saqlash</button>
-            </div>
-        </div>
-        <div class="right" style="width: 40%; margin-top: 10px; border: 1px solid #ced4da; border-radius: 6px; background-color: #fff; ">
-            <ul style="width: 100%; list-style-type: none;" *ngFor="let plan of plans">
-                <li>{{plan.modelId}} {{plan.plan}}</li>
-              
+                    </div>
+                </li>
+
+                <li 
+                    style="
+                        display: flex; 
+                        align-items: center; 
+                        justify-content: center;
+                        padding: 10px 0;">
+                    <div style=" 
+                        background-color: #689F38; 
+                        width: 30px; 
+                        height: 30px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 50%;
+                        cursor: pointer;" (click)="showCreateModal()">
+                            <i class="material-icons" style="color: #fff;">add</i>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -271,5 +335,93 @@
 
   <div *ngIf="isCreated" class="createdModal">
     Muvafaqqiyatli yaratildi!
+  </div>
+
+  <div *ngIf="isDeleted" class="deleteModal">
+    Muvafaqqiyatli o'chirildi!
+  </div>
+
+  <div *ngIf="createModalIsVisible" class="modal modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+    <div class="modal-dialog modal-lg" role="document" style="height: 540px">
+      <div class="modal-content" style="height: 455px;">
+        <div class="modal-header">
+          <h5 class="modal-title">Mahsulotni linyaga berish</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeCreateModal()"></button>
+        </div>
+        
+        <div class="modal-body">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div style="width: 100%;">
+                    <label class="form-label">Modelni tanlang.</label>
+                    <p-dropdown 
+                        [options]="models" 
+                        [(ngModel)]="selectedModel"
+                        [showClear]="true" 
+                        placeholder="Model"
+                        [filter]="true"
+                        [filterBy]="'name'"
+                        [filterPlaceholder]="'Modelni qidirish...'"
+                        [style]="{'width':'100%'}"
+                        (onChange)="selectModel($event)">
+                        >
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item">
+                                {{selectedModel.name}} 
+                            </div>
+                        </ng-template>
+            
+                        <ng-template let-model pTemplate="item">
+                            <div class="country-item">
+                                {{model.name}}
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            
+                <div *ngIf="selectedModel != null" style="width: 100%;">
+                    <label class="form-label">{{selectedModel.name}}ning modelini tanlang.</label>
+            
+                    <p-dropdown 
+                        [options]="innerModels" 
+                        [(ngModel)]="selectedInnerModel"
+                        [showClear]="true" 
+                        placeholder="{{selectedModel.name}}ning modeli"
+                        [filter]="true"
+                        [filterBy]="'name'"
+                        [filterPlaceholder]="'Modelni qidirish...'"
+                        [style]="{'width':'100%'}">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="innermodel-item">
+                                {{selectedInnerModel.name}} {{selectedInnerModel.code}} {{selectedInnerModel.comment}}
+                            </div>
+                        </ng-template>
+            
+                        <ng-template let-innermodel pTemplate="item">
+                            <div class="innermodel-item">
+                                {{innermodel.name}} {{innermodel.code}} {{innermodel.comment}}
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            
+                <div *ngIf="selectedInnerModel != null" style="width: 100%; margin-top: 20px;">
+                    <label class="form-label">Planni kiriting!</label>
+                    
+                    <input type="text"  [(ngModel)]="plan" class="form-control" style="border: 1px solid #ced4da;" placeholder="Plan.." />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn-primary" (click)="createPlan()">Saqlash</button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
