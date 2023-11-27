@@ -359,10 +359,10 @@ export class ProductionService {
     })
   }
 
-  public async setPlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
+  public async createPlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
     const url =
       this.server.ServerNameV2 +
-      '/api/v1/fridge/plan/set?modelId=' +
+      '/api/v1/fridge/plan/create?modelId=' +
       modelId +
       '&plan=' +
       plan;
@@ -387,6 +387,19 @@ export class ProductionService {
       this.handleError(error);
       throw new Error('Failed to set plan.'); // You can customize this message
     }
+  }
+
+  public async getPlans(token: any){
+    return new Promise((resolve) => {
+      this.http.get(this.server.ServerNameV2 + '/api/v1/fridge/plan/get', 
+        { 
+          headers: { "Authorization": "Bearer " + token } 
+        }
+      )
+      .subscribe(e=>{
+        resolve(e);
+      })
+    })
   }
 
   private handleError(error: any): void {

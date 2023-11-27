@@ -37,19 +37,28 @@ export class PlanComponent implements OnInit {
 
   isCreated:any = false;
 
+  plans: any;
+
   constructor(
     public api: ProductionService, 
     public renderer: Renderer2, 
     private titleService: Title
-  ) { }
+  ) {}
 
   ngAfterViewInit() {
     if (localStorage.getItem("accountant_token") != null) {
       this.isLoggedIn = true;
       this.accountantToken = localStorage.getItem("accountant_token");
       this.accountantName = localStorage.getItem("accountant_name");
+      
+      this.getPlans();
     }
+  }
 
+  async getPlans() {
+    this.plans = await this.api.getPlans(this.accountantToken);
+
+    console.log(this.plans)
   }
 
   async ngOnInit(): Promise<void> {
@@ -91,7 +100,7 @@ export class PlanComponent implements OnInit {
   }
 
   async setPlan() {
-    let result = await this.api.setPlan(this.accountantToken, this.selectedInnerModel.id, this.plan);
+    let result = await this.api.createPlan(this.accountantToken, this.selectedInnerModel.id, this.plan);
     console.log(result)
 
     this.isCreated = true;
