@@ -164,6 +164,8 @@ export class PlanComponent implements OnInit {
     if (result) {
       this.closeUpdateModal();
 
+      this.getPlans();
+
       this.isUpdated = true;
 
       setTimeout(() => {
