@@ -40,9 +40,13 @@ export class PlanComponent implements OnInit {
 
   isCreated:any = false;
   isDeleted:any = false;
+  isUpdated:any = false;
 
   plans: any;
   createModalIsVisible:boolean = false;
+  updateModalIsVisible:boolean = false;
+
+  selectedUpdatableModel: any;
 
   constructor(
     public api: ProductionService, 
@@ -140,4 +144,33 @@ export class PlanComponent implements OnInit {
       this.isDeleted = false;
     }, 2000);
   }
+
+  closeUpdateModal() {
+    this.updateModalIsVisible = false;
+  }
+
+  showUpdateModal(plan: any) {
+    console.log(plan)
+    this.selectedUpdatableModel = plan;
+    this.updateModalIsVisible = true;
+    this.plan = plan.plan;
+  }
+
+  async updatePlan() {
+    let result = 
+      await this.api.updatePlan(
+        this.accountantToken, this.selectedUpdatableModel.modelId, this.plan
+      );
+    if (result) {
+      this.closeUpdateModal();
+
+      this.isUpdated = true;
+
+      setTimeout(() => {
+        this.isUpdated = false;
+      }, 2000);
+    }
+  }
+
+  
 }

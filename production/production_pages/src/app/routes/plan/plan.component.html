@@ -134,6 +134,10 @@
         animation: wiggle 2s linear infinite;
     }
 
+    .updateModal {
+        animation: wiggle 2s linear infinite;
+    }
+
     /* Keyframes */
     @keyframes wiggle {
         0%, 7% {
@@ -196,6 +200,26 @@
         background: linear-gradient(top, #fafafa, #fff);
         border: none;
         border-top: 3px solid #C60001;
+        padding: 20px;
+        border-radius: 0 0 0.2em 0.2em;
+        color: #000;
+        font-family: Helvetica, Arial, Sans-serif;
+        font-size: 1em;
+        transform-origin: 50% 5em;
+    }
+
+    .updateModal {
+        position: absolute;
+        right: calc(3em);
+        bottom: calc(3em);
+        
+        height: 4em;
+        width: 20em;
+        
+        background: #fff;
+        background: linear-gradient(top, #fafafa, #fff);
+        border: none;
+        border-top: 3px solid #FBC02D;
         padding: 20px;
         border-radius: 0 0 0.2em 0.2em;
         color: #000;
@@ -288,7 +312,7 @@
                                 height: 35px; 
                                 width: 35px; 
                                 padding: 5px; 
-                                border-radius: 50%;">
+                                border-radius: 50%;" (click)="showUpdateModal(plan)">
 
                             <i class="material-icons" 
                             style="
@@ -339,6 +363,10 @@
 
   <div *ngIf="isCreated" class="createdModal">
     Muvafaqqiyatli yaratildi!
+  </div>
+
+  <div *ngIf="isUpdated" class="updateModal">
+    Muvafaqqiyatli o'zgartirildi!
   </div>
 
   <div *ngIf="isDeleted" class="deleteModal">
@@ -424,6 +452,38 @@
 
         <div class="modal-footer">
             <button type="submit" class="btn-primary" (click)="createPlan()">Saqlash</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="updateModalIsVisible" class="modal modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{selectedUpdatableModel.modelName}} {{selectedUpdatableModel.modelCode}} {{selectedUpdatableModel.modelComment}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeUpdateModal()"></button>
+        </div>
+        
+        <div class="modal-body">
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="mb-3">
+            
+                <div style="width: 100%; margin-top: 20px;">
+                    <label class="form-label">Planni kiriting!</label>
+                    
+                    <input type="text" [(ngModel)]="plan" class="form-control" style="border: 1px solid #ced4da;" placeholder="Plan.." />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn-primary" (click)="updatePlan()">Saqlash</button>
         </div>
       </div>
     </div>

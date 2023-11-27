@@ -389,6 +389,36 @@ export class ProductionService {
     }
   }
 
+  public async updatePlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
+    const url =
+      this.server.ServerNameV2 +
+      '/api/v1/fridge/plan/update?modelId=' +
+      modelId +
+      '&plan=' +
+      plan;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+
+    const body = { modelId, plan };
+
+    try {
+      const response = await this.http.put<IProduction[]>(url, body, { headers }).toPromise();
+
+      // Ensure that the response is defined before returning
+      if (response !== undefined) {
+        return response;
+      } else {
+        throw new Error('Invalid response from the server.');
+      }
+    } catch (error) {
+      this.handleError(error);
+      throw new Error('Failed to set plan.'); // You can customize this message
+    }
+  }
+
   public async deletePlan(token: any, modelId: any, plan: any): Promise<IProduction[]> {
     const url =
       this.server.ServerNameV2 +
