@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'metall', loadChildren: () => import('./routes/metall/metall.module').then(m => m.MetallModule) }, 
   { path: 'logist', loadChildren: () => import('./routes/logist/logist.module').then(m => m.LogistModule) }, 
   { path: 'master', loadChildren: () => import('./routes/master/master.module').then(m => m.MasterModule) }, 
+  { path: 'composite', loadChildren: () => import('./routes/composite/composite.module').then(m => m.CompositeModule) }, 
   { path: 'history/exchange', loadChildren: () => import('./routes/history/exchange/exchange.module').then(m => m.ExchangeModule) }, 
   { path: 'sborka/income', loadChildren: () => import('./routes/sborka/income/income.module').then(m => m.IncomeModule) }, 
   { path: 'check_remont', loadChildren: () => import('./routes/check-remont/check-remont.module').then(m => m.CheckRemontModule) }, 

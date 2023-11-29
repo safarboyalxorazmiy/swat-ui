@@ -20,6 +20,15 @@ export class ProductionService {
     })
   }
 
+  public getComposites(): Promise<any[]> {
+    return new Promise<any[]>((resolve) => {
+      this.http.get<any[]>(this.server.ServerNameV2 + '/components/get/all/composite')
+      .subscribe(e=>{
+        resolve(e);
+      })
+    });
+  }
+
   public async CheckRemont(body: any){
     return new Promise<any>((resolve) => {
       this.http.post<any>(this.server.ServerName+'/production/check_remont', body).subscribe(e=>{

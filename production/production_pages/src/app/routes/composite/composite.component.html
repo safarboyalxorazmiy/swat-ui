@@ -1,0 +1,125 @@
+<link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    
+<style>
+    tbody tr {
+        height: 200px!important;
+    }
+
+    tbody tr.clickable:hover {
+        cursor: pointer;
+        background-color: #f9fafb;
+    }
+</style>
+
+<!-- New Table -->
+ <div class="w-full overflow-hidden rounded-lg shadow-xs" style="width: 80%!important; margin-left: auto; margin-right: auto; margin-top: 20px;">
+    <div class="w-full overflow-x-auto">
+      <table class="w-full whitespace-no-wrap">
+        <thead>
+          <tr
+            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <th class="px-4 py-3">Detall</th>
+            <th class="px-4 py-3">Qiymat</th>
+            <th class="px-4 py-3">Status</th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+        >
+          <tr class="text-gray-700 dark:text-gray-400 clickable">
+            <td class="px-4 py-3">
+              <div class="flex items-center text-sm">
+                <!-- Avatar with inset shadow -->
+                <div style="height: 200px;"
+                  class="relative hidden w-8 h-8 mr-3 md:block"
+                >
+                  <img style="width: 200px!important; border-radius: 5px!important; "
+                    class="object-cover w-full h-full "
+                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                    alt=""
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="font-semibold">PR21321546</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              863.45
+            </td>
+            <td class="px-4 py-3 text-xs">
+              <span
+                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+              >
+                LOCAL
+              </span>
+            </td>
+          </tr>
+
+          <tr *ngIf="openedId==0" class="text-gray-700 dark:text-gray-400 clickable">
+            <td class="px-4 py-3">
+              <div class="flex items-center text-sm">
+                <!-- Avatar with inset shadow -->
+                <div style="height: 200px;"
+                  class="relative hidden w-8 h-8 mr-3 md:block"
+                >
+                  <img style="width: 200px!important; border-radius: 5px!important; "
+                    class="object-cover w-full h-full "
+                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                    alt=""
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="font-semibold">PR21321546</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              863.45
+            </td>
+            <td class="px-4 py-3 text-xs">
+              <span
+                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+              >
+                LOCAL
+              </span>
+            </td>
+          </tr>
+
+          <tr *ngFor="let composite of composites" class="text-gray-700 dark:text-gray-400">
+            <td class="px-4 py-3">
+              <div class="flex items-center text-sm">
+                <!-- Avatar with inset shadow -->
+                <div style="height: 200px;"
+                  class="relative hidden w-8 h-8 mr-3 md:block"
+                >
+                  <img style="width: 200px!important; border-radius: 5px!important; "
+                    class="object-cover w-full h-full "
+                    src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                    alt=""
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="font-semibold">{{ composite.code }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm">
+              863.45
+            </td>
+            <td class="px-4 py-3 text-xs">
+                <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                    IMPORT
+                </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
