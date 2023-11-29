@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-plan',
   templateUrl: './plan.component.html',
   styleUrls: [
-    './plan.component.css',
+    "./plan.component.css",
     "../../../../node_modules/material-icons/iconfont/material-icons.css"
 ]
 })
@@ -174,5 +174,4 @@ export class PlanComponent implements OnInit {
     }
   }
 
-  
 }

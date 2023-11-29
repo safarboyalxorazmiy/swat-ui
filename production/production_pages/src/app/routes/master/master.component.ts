@@ -41,11 +41,14 @@ export class MasterComponent implements OnInit {
 
   searchFilter: string;
 
+  isCompositeCreatable: boolean = false;
+  productionModalIsVisible:boolean = false;
+
   constructor(
     public api: ProductionService, 
     public renderer: Renderer2, 
     private titleService: Title
-  ) { }
+  ) {}
 
   ngAfterViewInit() {
     if (localStorage.getItem("master_token") != null) {
@@ -56,6 +59,12 @@ export class MasterComponent implements OnInit {
 
     this.getVerifiedComponents();
     this.getComposites();
+    this.getLineInfo();
+  }
+
+  async getLineInfo() {
+    let info:any = await this.api.getMasterLineInfo(this.masterToken);
+    this.isCompositeCreatable = info.isCompositeCreatable;
   }
 
   async ngOnInit(): Promise<void> {
@@ -228,5 +237,13 @@ export class MasterComponent implements OnInit {
     } catch (error:any) {
       this.quantityError = error.error;
     }
+  }
+
+  showProductionModal() {
+    this.productionModalIsVisible = true;
+  }
+
+  closeProductionModal() {
+    this.productionModalIsVisible = false;
   }
 }

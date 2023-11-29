@@ -340,9 +340,9 @@
                     
                     <div class="col-auto ms-auto d-print-none">
                       <div class="btn-list">
-                        <span class="d-none d-sm-inline">
-                          <a href="#" class="btn">
-                            New view
+                        <span *ngIf="isCompositeCreatable" (click)="showProductionModal()" class="d-none d-sm-inline">
+                          <a class="btn">
+                            Mahsulot ishlab chiqarish
                           </a>
                         </span>
 
@@ -420,7 +420,12 @@
                                   </div>
 
                                   <table class="table card-table table-vcenter">
-                                    <tr  *ngFor="let item of verifiedComponents">
+                                    <tr *ngFor="let item of composites">
+                                      <td class="data-1">{{ item.componentCode }} - {{item.componentName}} - {{item.componentSpecs}}</td>
+                                      <td class="data-2">{{ item.quantity }}</td>
+                                    </tr>
+
+                                    <tr *ngFor="let item of verifiedComponents">
                                       <td class="data-1">{{ item.componentCode }} - {{item.componentName}} - {{item.componentSpecs}}</td>
                                       <td class="data-2">{{ item.quantity }}</td>
                                     </tr>
@@ -474,8 +479,7 @@
               <div class="col-md-12">
                 <div class="mb-3">
                   <label class="form-label">Detallni tanlang.</label>
-                  
-                  
+
                   <p-dropdown 
                     [style]="{'width':'100%'}"
                     [options]="composites" 
@@ -529,6 +533,73 @@
       </div>
     </div>
 
+    <div *ngIf="productionModalIsVisible" class="modal modal-blur" id="modal-report" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Mahsulot ishlab chiqarish</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeProductionModal()"></button>
+          </div>
+          
+          <div class="modal-body">
+            
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Detallni tanlang.</label>
+
+                  <p-dropdown 
+                    [style]="{'width':'100%'}"
+                    [options]="composites" 
+                    [(ngModel)]="selectedComponent"
+                    [showClear]="true" 
+                    [filter]="true"
+                    [filterBy]="'componentCode'"
+                    [filterPlaceholder]="'Detalni qidirish...'"
+                    placeholder="Detall"
+                  >
+                    <ng-template pTemplate="selectedItem">
+                        <div class="country-item">
+                            {{ selectedComponent.componentCode }} - {{selectedComponent.componentName}} - {{selectedComponent.componentSpecs}}
+                        </div>
+                    </ng-template>
+
+                    <ng-template let-component pTemplate="item">
+                        <div class="country-item">
+                            {{ component.componentCode }} - {{component.componentName}} - {{component.componentSpecs}}
+                        </div>
+                    </ng-template>
+                  </p-dropdown>
+
+                  <span style="color: red;">{{ componentError }}</span>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="form-label">Qiymat.</label>
+                    
+                    <p-inputNumber
+                      [style]="{'width':'100%'}"  [(ngModel)]="quantity" placeholder="Soni" 
+                      [style.width.%]="100" mode="decimal" [minFractionDigits]="0"
+                      [maxFractionDigits]="5"></p-inputNumber>
+                    <span style="color: red;">{{ quantityError }}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <a class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="closeProductionModal()">Bekor qilish</a>
+            
+            <a class="btn btn-success ms-auto" data-bs-dismiss="modal" (click)="submitComponent()">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+              <span>Ishlab chiqarish.</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div *ngIf="isGiven" class="createdModal">
       Muvafaqqiyatli berilidi!
