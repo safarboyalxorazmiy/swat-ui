@@ -543,4 +543,13 @@ export class ProductionapiService {
       })
     })
   }
+
+  public async CreateComposite(data:any) {
+    return new Promise<any>((resolve) => {
+      this.http.post<any>(this.config.serverDomenNameV2 + `/api/v1/composite/create`, data)
+      .subscribe(e => {
+        resolve(e);
+      })
+    })
+  }
 }

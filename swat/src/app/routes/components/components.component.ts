@@ -100,7 +100,9 @@ export class ComponentsComponent implements OnInit {
       quantity: this.quantity
     };
 
-    const index = this.componentGroup.findIndex(group => group.component.id === componentGroup.component.id);
+    const index = this.componentGroup.findIndex(
+      group => group.component.id === componentGroup.component.id
+    );
 
     if (index !== -1) {
       componentGroup.quantity = 
@@ -132,7 +134,7 @@ export class ComponentsComponent implements OnInit {
     }
 
     console.log("Updated componentGroup:", this.componentGroup);
-}
+  }
 
 
   async getComponents() {
@@ -189,19 +191,51 @@ export class ComponentsComponent implements OnInit {
         return
     }
 
-    let data = {
-        id: this.component.id,
+    if (this.component.type_id == 3) {
+      this.componentGroup
+
+      let componentGroup:any = [];
+      this.componentGroup.forEach(function(group) {
+        componentGroup.push({
+          componentId: group.component.id,
+          quantity: group.quantity
+        })
+      });
+
+      let data = {
         code: this.component.code,
         name: this.component.name,
-        checkpoint_id: this.selectedCheckpoint.id,
+        checkpoint: this.selectedCheckpoint.id,
         unit: this.component.unit,
         photo: this.component.photo,
         specs: this.component.specs,
         type_id: Number(this.component.type_id),
         weight: Number(this.component.weight),
         inner_code: this.component.inner_code,
-        token: this.token.token
+        
+        components: componentGroup
+      }
+      
+      await this.api.CreateComposite(data);
+
+      this.productDialog = false
+      return;
     }
+
+    let data = {
+      id: this.component.id,
+      code: this.component.code,
+      name: this.component.name,
+      checkpoint_id: this.selectedCheckpoint.id,
+      unit: this.component.unit,
+      photo: this.component.photo,
+      specs: this.component.specs,
+      type_id: Number(this.component.type_id),
+      weight: Number(this.component.weight),
+      inner_code: this.component.inner_code,
+      token: this.token.token
+    }
+
     this.component.checkpoint_id = this.selectedCheckpoint.id
     this.component.checkpoint = this.selectedCheckpoint.name
     
