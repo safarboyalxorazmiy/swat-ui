@@ -533,4 +533,14 @@ export class ProductionapiService {
       })
     })
   }
+
+  public async GetComponents() {
+    return new Promise<any>((resolve) => {
+      this.http.get<any>(
+        this.config.serverDomenNameV2 + '/api/v1/components/get/all'
+      ).subscribe(e => {
+        resolve(e);
+      })
+    })
+  }
 }

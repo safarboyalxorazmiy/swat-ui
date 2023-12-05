@@ -64,7 +64,7 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Component Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="productDialog" [style]="{width: '90vw'}" header="Component Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <img [src]="'assets/photo/' + component.photo" [alt]="component.photo" class="product-image" width="400" *ngIf="component.photo">
         <div class="field">
@@ -98,7 +98,7 @@
 
         <div class="field">
             <label for="inventoryStatus"></label>
-                <p-dropdown [options]="checkpoints" [(ngModel)]="selectedCheckpoint" placeholder="Ishlatilish joyi" optionLabel="name" [showClear]="true" ></p-dropdown>
+            <p-dropdown [options]="checkpoints" [(ngModel)]="selectedCheckpoint" placeholder="Ishlatilish joyi" optionLabel="name" [showClear]="true" ></p-dropdown>
         </div>
 
         <div class="field">
@@ -116,7 +116,77 @@
                     <p-radioButton *ngIf="component" id="category3" name="category" value="3" [(ngModel)]="component.type_id"></p-radioButton>
                     <label for="category3">Production</label>
                 </div>
+            </div>
 
+            <div *ngIf="component.type_id == 3">
+                <div>
+                    <p style="margin-bottom: 2px">Detall</p>
+                    <p-dropdown [style]="{'width':'100%'}"
+                            [options]="componentsForComposite" 
+                            [(ngModel)]="selectedComponent"
+                            [showClear]="true" 
+                            [filter]="true"
+                            [filterBy]="'code'"
+                            [filterPlaceholder]="'Detallni qidirish...'"
+                            placeholder="Detall">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="country-item">
+                                {{ selectedComponent.code }} - {{selectedComponent.name}} - {{selectedComponent.specs}}
+                            </div>
+                        </ng-template>
+
+                        <ng-template let-component pTemplate="item">
+                            <div class="country-item">
+                                {{ component.code }} - {{component.name}} - {{component.specs}}
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+
+                    <p style="color: red; margin-top: 0;">{{ componentError }}</p>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <p style="margin-bottom: 2px">Qiymat</p>
+                    
+                    <input 
+                        type="number" 
+                        pInputText 
+                        id="quantity" 
+                        [(ngModel)]="quantity" 
+                        required 
+                        autofocus />
+
+                    <p style="color: red; margin-top: 0;">{{ quantityError }}</p>
+                </div>
+
+                <button 
+                    style="margin-top: 10px; margin-bottom: 20px; width: 120px;"
+                    pButton 
+                    pRipple 
+                    label="Biriktirish" 
+                    icon="pi pi-plus" 
+                    class="p-button-success mr-2" 
+                    (click)="addComponentGroup()"></button>
+
+                <p-table [value]="componentGroup" [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Component</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-component>
+                        <tr>
+                            <td>{{ component.component.name }}</td>
+                            <td>{{ component.quantity }}</td>  
+                            <td>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteComponentGroup(component)"></button>
+                            </td>         
+                         </tr>
+                    </ng-template>
+                </p-table>
+                
             </div>
         </div>
 
